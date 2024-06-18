@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+
+
+import React, { useState } from 'react';
 import './App.css';
+import animalsData from './Data/MockData.js';
+import { handleActivate, handleDelete } from './utils/render';
 
 function App() {
+  const [animals, setAnimals] = useState(animalsData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {animals.length > 0 ? (
+        <ul>
+          {animals.map((animal, index) => (
+            <li key={index} className={animal.active ? 'active' : ''}>
+              {animal.icon} {animal.type}{' '}
+              <button onClick={() => handleActivate(animals, index, setAnimals)}>
+                {animal.active ? 'Deactivate' : 'Activate'}
+              </button>{' '}
+              <button onClick={() => handleDelete(animals, index, setAnimals)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No animals left.</p>
+      )}
+    </>
   );
 }
 
